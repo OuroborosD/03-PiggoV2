@@ -1,6 +1,4 @@
 <!DOCTYPE html>
-
-{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,12 +7,10 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="" method="POST">
-        {% csrf_token %}
+    <form action="" method='POST'>
+        {% csrf_token %}
         {{forms}}
-        <button>cadastrar</button>        
+        <button>enviar</button>
     </form>
-    
 </body>
- 
 </html>
