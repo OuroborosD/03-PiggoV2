@@ -19,6 +19,9 @@ def create(request):
             cartao = dados_cadastro.cleaned_data['cartao']
 
             if CustomUser.objects.filter(username=usuario).exists() and  CustomUser.objects.filter(email=email).exists() :
+                print('usuario já existe')
+               
+            else:
 
                 if cartao is None:
                     CustomUser.objects.create_user(username=usuario,
@@ -31,8 +34,8 @@ def create(request):
                                                     password=senha,
                                                     email=email,
                                                     vencimento_cartao=cartao)
-            else:
-                print('usuario já existe')
+                return redirect('accounts_login')
+                
         else:
             print('não validos')
 
@@ -47,7 +50,35 @@ def create(request):
 
 
 def login(request):
-    return render(request,'accounts/login.html')
+
+    if request.method == 'POST':
+
+        dados_login = Login(request.POST)
+        if dados_login.is_valid():
+            usuario = dados_login.cleaned_data['usuario']
+            senha = dados_login.cleaned_data['senha']
+            user = auth.authenticate(request, username=usuario,password=senha)
+
+            if user: # se o user der certo, ele é True
+                auth.login(request,user)
+            else:
+                print('usuario invalido!!')
+
+    
+    else:
+
+        dados_login = Login()
+    
+    context = {
+        'forms': dados_login
+    }
+
+    return render(request,'accounts/login.html',context)
 
 def dashboard(request):
     return render(request,'accounts/dashboard.html')
+
+
+def logout(request):
+    auth.logout(request)
+    return redirect('accounts_login')
