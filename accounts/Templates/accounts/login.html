@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    {% if user == AnonymousUser %}
+    {% if user.is_anonymous %}
         <form action="" method='POST'>
             {% csrf_token %}
             {{forms}}

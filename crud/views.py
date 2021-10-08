@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from django.views import View
-
+from django.contrib.auth.decorators import login_required
 
 
 # self made
@@ -10,6 +10,7 @@ from .forms import DespesaForm,ReceitaForm, EmprestimoModelForm, ReceitaModelFor
 #self made functions
 from utils.functions import logged_user
 # Create your views here.
+
 
 class ReceitaView(View):
     def get(self, request):
@@ -34,7 +35,7 @@ class ReceitaView(View):
         
         
 
-
+@login_required(redirect_field_name='accounts_login')
 def despesa(request):
     if request.method == 'POST':
         despesa_dados = DespesaForm(request.POST)
@@ -80,7 +81,7 @@ def despesa(request):
     
     return render(request,'crud/despesa.html',context)
 
-
+@login_required(redirect_field_name='accounts_login')
 def emprestimo(request):
     if request.method == 'POST':
         emprestimo_dados = EmprestimoModelForm(request.POST)
@@ -88,7 +89,8 @@ def emprestimo(request):
             emprestimo_with_id = emprestimo_dados.save(commit=False)
             emprestimo_with_id.id_autor = logged_user(request)
             emprestimo_with_id.save()
-            
+            return redirect('accounts_dashboard')
+
         else:
             print('não validos')
     
@@ -99,3 +101,9 @@ def emprestimo(request):
         'forms' : emprestimo_dados
     }
     return render(request,'crud/emprestimo.html',context)
+
+
+
+
+if  request.user.is_anonymous:
+    #logica
