@@ -7,10 +7,15 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="" method='POST'>
-        {% csrf_token %}
-        {{forms}}
-        <button>logar</button>
-    </form>
+    {% if user == AnonymousUser %}
+        <form action="" method='POST'>
+            {% csrf_token %}
+            {{forms}}
+            <button>logar</button>
+        </form>
+       
+    {% else %}
+        <h1> {{user}}  já está logado!!!</h1>
+    {% endif %}
 </body>
 </html>

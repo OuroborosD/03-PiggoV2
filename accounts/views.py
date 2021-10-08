@@ -3,6 +3,7 @@ from django.shortcuts  import render, redirect
 from django.contrib.auth.models import UserManager
 from django.contrib import auth
 
+
 #   feitos aqui.
 from .forms import Create, Login
 from .models import CustomUser
@@ -61,6 +62,7 @@ def login(request):
 
             if user: # se o user der certo, ele é True
                 auth.login(request,user)
+                return redirect('accounts_dashboard')
             else:
                 print('usuario invalido!!')
 
@@ -74,6 +76,7 @@ def login(request):
     }
 
     return render(request,'accounts/login.html',context)
+
 
 def dashboard(request):
     return render(request,'accounts/dashboard.html')

@@ -10,4 +10,4 @@ class Create(forms.Form):
 
 class Login(forms.Form):
     usuario =   forms.CharField(label='usuario', min_length=2)
-    senha   =   forms.CharField(label='usuario', min_length=1)
+    senha   =   forms.CharField(label='senha', min_length=1)

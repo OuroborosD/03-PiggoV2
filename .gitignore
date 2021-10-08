@@ -2,3 +2,4 @@ venv/
 .Vscode/
 antigo/
 *.sqlite3
+keys.py

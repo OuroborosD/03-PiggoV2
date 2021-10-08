@@ -1,12 +1,14 @@
+
 from django.db import models
 from django.db.models.deletion import CASCADE
+from utils.functions import today_date
 
 # Create your models here.
-from ultils import choices
+from utils import choices
 from accounts.models import CustomUser
 
 class Despesa(models.Model):
-    data_despesa = models.DateField(auto_now=True)
+    data_despesa = models.DateField(default=today_date())
     descricao = models.CharField(max_length=50)
     meio_pagametno = models.CharField(max_length=30,choices=choices.meio_pagamento)
     tipo_despesa = models.CharField(max_length=30, choices=choices.tipo_despesa)
@@ -19,12 +21,12 @@ class Despesa(models.Model):
 
 
 class Receita(models.Model):
-    data_receita = models.DateField(auto_now=True)
+    data_receita = models.DateField(default=today_date())
     descricao = models.CharField(max_length=50)
     forma_receita = models.CharField(choices=choices.fonte_receita, max_length=30)
     valor  = models.DecimalField(max_digits=6, decimal_places=2)
     recorrencia = models.BooleanField(default=False)
-    id_user = models.ForeignKey(CustomUser,on_delete=CASCADE)
+    id_user = models.ForeignKey(CustomUser,on_delete=CASCADE, blank=True,null=True)
 
 
     def __str__(self):
@@ -32,8 +34,8 @@ class Receita(models.Model):
 
 class Emprestimo(models.Model):
     nome = models.CharField(max_length=30)
-    data_emprestimo = models.DateField(auto_now=True)
-    data_pagamento = models.DateField()
+    data_emprestimo = models.DateField(default=today_date())
+    data_pagamento = models.DateField(blank=True, null=True)
     descricao = models.CharField(max_length=50)
     meio_pagametno = models.CharField(max_length=30,choices=choices.meio_pagamento)
     valor_emprestimo  = models.DecimalField(max_digits=6, decimal_places=2)
@@ -45,3 +47,5 @@ class Emprestimo(models.Model):
 
     def __str__(self):
         return (f'{self.nome}  - {self.data_emprestimo}  pagar em {self.data_pagamento} o valor R$:{self.valor}')
+
+
