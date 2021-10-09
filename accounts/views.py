@@ -2,11 +2,15 @@ from django.shortcuts import render
 from django.shortcuts  import render, redirect
 from django.contrib.auth.models import UserManager
 from django.contrib import auth
-
+from django.contrib.auth.decorators import login_required
 
 #   feitos aqui.
 from .forms import Create, Login
 from .models import CustomUser
+
+# eu fiz
+from crud.models import Receita,Despesa,Emprestimo
+
 
 def create(request):
     if request.method == 'POST':
@@ -77,9 +81,15 @@ def login(request):
 
     return render(request,'accounts/login.html',context)
 
-
+@login_required(redirect_field_name='accounts_login')
 def dashboard(request):
-    return render(request,'accounts/dashboard.html')
+    despesa_user = Despesa.objects.filter(user_id=request.user)
+    print(despesa_user)
+    context ={
+        'despesas':despesa_user
+       
+    }
+    return render(request,'accounts/dashboard.html', context)
 
 
 def logout(request):

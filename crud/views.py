@@ -12,13 +12,18 @@ from utils.functions import logged_user
 # Create your views here.
 
 
+
 class ReceitaView(View):
+    
+    @login_required(redirect_field_name='accounts_login')
     def get(self, request):
        form = ReceitaModelForm()
        context = {
            'forms':form
        }
        return render(request,'crud/receita.html', context)
+
+    @login_required(redirect_field_name='accounts_login')
     def post(self,request):
         form = ReceitaModelForm(request.POST)
         if form.is_valid():
@@ -81,6 +86,8 @@ def despesa(request):
     
     return render(request,'crud/despesa.html',context)
 
+
+
 @login_required(redirect_field_name='accounts_login')
 def emprestimo(request):
     if request.method == 'POST':
@@ -103,7 +110,3 @@ def emprestimo(request):
     return render(request,'crud/emprestimo.html',context)
 
 
-
-
-if  request.user.is_anonymous:
-    #logica

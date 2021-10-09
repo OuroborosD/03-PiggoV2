@@ -8,6 +8,12 @@
 </head>
 <body>
     <h2> olá  {{user}} {{user.pk}} </h2>
-    <h3>para sair cloque <a href="{% url 'accounts_logout' %}">aqui</a>  </h3>
+    <h3>para sair clique <a href="{% url 'accounts_logout' %}">aqui</a>  </h3>
+
+    {% for despesa in despesas %}
+        <div>
+            <p> {{despesa.descricao}}  | {{despesa.valor}}   </p>
+        </div>
+    {% endfor %}
 </body>
 </html>

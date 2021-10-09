@@ -1,5 +1,5 @@
 venv/
 .Vscode/
-antigo/
+.antigo/
 *.sqlite3
 keys.py
